@@ -3,6 +3,7 @@ from os import linesep
 import encodings
 import urllib
 from xml.etree import ElementTree
+import diskcache as dc
 
 SEQUENCE = "SEQUENCE"
 DNA = "DNA"
@@ -12,6 +13,11 @@ def fetch_sequence_from_web_service(source, chromosome, start_position, end_posi
     assert start_position >= 0
     assert end_position >= 0 and end_position > start_position
 
+    cache = dc.Cache('cache')
+    key = "b%s%s%d%d" % (source, chromosome, start_position, end_position)
+    if key in cache:
+        return cache[key]
+
     # Convert 0-indexed with exclusive end to to 1-indexed inclusive end
     # (which is required by uscs and togows)
     start_position += 1
@@ -19,9 +25,11 @@ def fetch_sequence_from_web_service(source, chromosome, start_position, end_posi
     if source != "UCSC" and source != "TOGOWS":
         raise NotImplementedError("Cannot fetch sequences from %s" % source)
 
-    return _fetch_sequence_from_togows(chromosome, start_position, end_position) \
+    sequence = _fetch_sequence_from_togows(chromosome, start_position, end_position) \
         if source == "TOGOWS" \
         else _fetch_sequence_from_ucsc(chromosome, start_position, end_position)
+    cache[key] = sequence
+    return sequence
 
 
 def _fetch_sequence(url):

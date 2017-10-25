@@ -1,6 +1,7 @@
 import unittest
 from sequence_retriever import fetch_sequence_from_web_service
 
+# Test
 class SequenceRetrieverTester(unittest.TestCase):
 
     def setUp(self):

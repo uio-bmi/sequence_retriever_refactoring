@@ -1,5 +1,6 @@
 # Excercise 1
-Refactor / clean up the code
+Refactor / clean up the code.
+Improve testing. Now tests actually requires connecting to the web services. We would like to avoid that.
 
 # Ecercise 2
 Add caching. When fetch_sequence_from_web_service is called, we ideally want it to cache the resulting sequence to a file. 

@@ -30,7 +30,7 @@ class SequenceRetrieverTester(unittest.TestCase):
             )
 
     def test_fetched_sequence_is_correct(self):
-        
+
         for source in self.valid_sources:
             sequence = fetch_sequence_from_web_service(source, "chr2", 10000000, 10000005)
             self.assertEqual(sequence, "ttaga",
@@ -42,7 +42,6 @@ class SequenceRetrieverTester(unittest.TestCase):
                              "Fetched sequence from %s does not match"
                              "correct sequence" % source)
 
-            print(sequence)
 
 
 if __name__ == "__main__":
